@@ -1,0 +1,11 @@
+{
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+        "semi": "warn",
+        "capitalized-comments": "warn",
+        "arrow-spacing": "warn",
+        "space-in-parens": "warn"
+    }
+}
