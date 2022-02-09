@@ -1,8 +1,8 @@
 TODO:
 
 1. Create express app // DONE
-2. Basic database Configuration //
-3. Create Models //
+2. Basic database Configuration // Done
+3. Create Models // 
 4. Create Routes //
     1. Register Route //
     2. Login Route //
