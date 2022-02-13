@@ -2,10 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const joi = require('joi');
-const User = require('../models/User.js');
 const router = express.Router();
+const User = require('../models/User.js');
 
-// Schema for validation new user info
+// Schema to validate new user info
 const newUserSchema = joi.object().keys({
     username: joi.string()
         .alphanum()
@@ -35,7 +35,6 @@ router.post('/register', async (req,res) => {
         // Check if user already exist
         const alreadyRegistered = await User.findOne({username: newUserInfo.username});
         if(alreadyRegistered){
-            console.log("User is already  registered I swear");
             return res.status(409).json("User Already Registered");
         }
         // Hash password
@@ -46,7 +45,7 @@ router.post('/register', async (req,res) => {
         const newUser = await new User(newUserInfo);
         newUser.save((err) => {
             if(err){
-                return res.status(500).json("Server Error!");
+                return res.status(500).json("Wrong Credentials!");
             }else{
                 return res.status(201).json("User Registered!");
             }

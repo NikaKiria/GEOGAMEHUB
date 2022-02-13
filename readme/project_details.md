@@ -14,6 +14,7 @@ _ Node.js / Express
 _ Mongodb Atlas
 _ Bcrypt
 _ Mongoose
+_ JWT
 _ Joi
 _ Body Parser
 _ Dotenv
