@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const joi = require('joi');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-const generateAccessToken = require('../middlewares/auth.js');
 const User = require('../models/User.js');
 
 // Schema to validate user info
@@ -16,7 +15,12 @@ const newUserSchema = joi.object().keys({
         .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
 });
 
-router.post('/login', (req,res) => {
+// Generate access token
+const generateAccessToken = (email, secretToken) => {
+    return jwt.sign({email}, secretToken , {expiresIn: "1d"});
+};
+
+router.post('/login', async (req,res) => {
     // Validate user object
     const userObject = req.body;
     const validationResult = newUserSchema.validate(userObject);
@@ -24,13 +28,23 @@ router.post('/login', (req,res) => {
         return res.status(401).json("Wrong Credentials!");
     }
     // Check if user exists
-    const userExist = User.findOne({email: userObject.email});
+    const userExist = await User.findOne({email: userObject.email});
     if(!userExist){
         return res.status(401).json("Wrong Credentials!");
     }
-    // Return access token
-    const accessToken = generateAccessToken(userObject.email, process.env.JWT_TOKEN_SECRET);
-    res.status(200).json({accessToken});
+    const isMatchPassword = await bcrypt.compare(userObject.password, userExist.password);
+    if(isMatchPassword){
+        // Return access token
+        const accessToken = generateAccessToken(userObject.email, process.env.JWT_TOKEN_SECRET);
+        return res.status(200).json({accessToken, user:{
+            id: userExist._id,
+            username: userExist.username,
+            age: userExist.age,
+            email: userExist.email
+        }});
+    }else{
+        return res.status(401).json("Wrong Credentials!");
+    }
 });
 
 module.exports = router;
