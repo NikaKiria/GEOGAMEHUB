@@ -6,6 +6,8 @@ const {connectToDB} = require('./database/database.js');
 // Import routes
 const registerRoute = require('./routes/register.js');
 const loginRoute = require('./routes/login.js');
+const newsFeedRoute = require('./routes/newsfeed.js');
+const createpostRoute = require('./routes/createPost.js');
 
 // Create express app
 const app = express();
@@ -20,6 +22,8 @@ connectToDB(process.env.MONGO_URI);
 // Routes
 app.use('/api/v1', registerRoute);
 app.use('/api/v1', loginRoute);
+app.use('/api/v1', createpostRoute);
+app.use('/api/v1', newsFeedRoute);
 
 // Listen to port
 const PORT = process.env.PORT;
