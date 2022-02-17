@@ -32,6 +32,7 @@ router.post('/login', async (req,res) => {
     if(!userExist){
         return res.status(401).json("Wrong Credentials!");
     }
+    // Check if password is correct
     const isMatchPassword = await bcrypt.compare(userObject.password, userExist.password);
     if(isMatchPassword){
         // Return access token
