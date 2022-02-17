@@ -32,7 +32,7 @@ router.post('/createpost', auth, async (req,res) => {
     if(validatedData.error){
         return res.status(400).json(validatedData.error);
     }
-    // Create Post
+    // Create new post
     const newPost = await new Post(postRawData);
     newPost.save();
     res.status(201).json("Post successfully created!");
