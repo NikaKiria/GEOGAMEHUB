@@ -1,4 +1,4 @@
-const jwt = require('jwt');
+const jwt = require('jsonwebtoken');
 
 const auth = (req,res,next) => {
     try{
@@ -18,3 +18,5 @@ const auth = (req,res,next) => {
         res.status(500).json("Server Error");
     }
 };
+
+module.exports = auth;
