@@ -12,7 +12,7 @@ const auth = (req,res,next) => {
         if(!verified){
             return res.status(401).json("Authorisation Denied!");
         }
-        req.user = verified.id;
+        req.user = verified.email;
         next();
     }catch(err) {
         res.status(500).json("Server Error");
