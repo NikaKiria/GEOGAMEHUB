@@ -16,7 +16,6 @@ const connectToDB = (MONGO_URI) => {
         });
 };
 
-
 module.exports = {
     connectToDB: connectToDB
 };
