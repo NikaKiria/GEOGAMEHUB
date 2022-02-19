@@ -6,8 +6,9 @@ TODO:
 4. Create Routes //
     1. Register Route // Done
     2. Login Route // Done
-    3. GameFeed Route //
-    4. Profile Route //
+    3. GameFeed Route // Done
+    5. Like 
+    6. Comment
 5. Security implementation //
 6. Deploy //
 
