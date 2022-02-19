@@ -3,6 +3,7 @@ const Post = require('../models/Post.js');
 const auth = require('../middlewares/auth.js');
 const joi = require('joi');
 const router = express.Router();
+const User = require('../models/User.js');
 
 // Schema to validate new post info
 const newPostSchema = joi.object().keys({
@@ -28,9 +29,17 @@ const newPostSchema = joi.object().keys({
 router.post('/createpost', auth, async (req,res) => {
     // Validate post data provided by user
     const postRawData = await req.body;
+    // Find user by email ( given by auth middleware )
+    const authorUser = await User.findOne({email:req.user});
+    if(!authorUser){
+        return res.status(404).json("User not found!");
+    }
+    postRawData.author = authorUser.username;
+    currentDate = new Date();
+    postRawData.date = currentDate.toDateString();
     const validatedData = newPostSchema.validate(postRawData);
     if(validatedData.error){
-        return res.status(400).json(validatedData.error);
+        return res.status(400).json({"validation":validatedData.error});
     }
     // Create new post
     const newPost = await new Post(postRawData);
