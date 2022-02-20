@@ -9,7 +9,7 @@ const loginRoute = require('./routes/login.js');
 const newsFeedRoute = require('./routes/newsfeed.js');
 const createpostRoute = require('./routes/createPost.js');
 const likePost = require('./routes/likePost.js');
-
+const commentPost = require('./routes/comment');
 // Create express app
 const app = express();
 
@@ -26,6 +26,7 @@ app.use('/api/v1', loginRoute);
 app.use('/api/v1', createpostRoute);
 app.use('/api/v1', newsFeedRoute);
 app.use('/api/v1', likePost);
+app.use('/api/v1', commentPost);
 
 // Listen to port
 const PORT = process.env.PORT;
