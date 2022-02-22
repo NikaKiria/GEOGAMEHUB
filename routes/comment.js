@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post.js');
+const joi = require('joi');
 const auth = require('../middlewares/auth.js');
+
+// Schema to validate new post info
+const commentSchema = joi.string().max(700).required();
 
 router.put('/comment/:id', auth, async (req,res) => {
     // Get post
@@ -10,14 +14,16 @@ router.put('/comment/:id', auth, async (req,res) => {
     if(!postToComment){
         return res.status(404).json("Post not found!");
     }
-    // Check if comment text exist
-    if(!req.body.comment){
-        return res.status(400).json("Bad Request!");
+    // Validate comment
+    const validatedComment = commentSchema.validate(req.body.content);
+    if(validatedComment.error){
+        console.log(validatedComment.error);
+        return res.status(400).json("Comment cant be added!");
     }
     // Comment to post
     postToComment.comments.push(
         {
-        content:req.body.comment,
+        content:req.body.content,
         author: req.user
         }
     );
