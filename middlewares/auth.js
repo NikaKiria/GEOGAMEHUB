@@ -15,7 +15,7 @@ const auth = (req,res,next) => {
         req.user = verified.email;
         next();
     }catch(err) {
-        res.status(500).json("Server Error");
+        res.status(500).json("Something went wrong!");
     }
 };
 
