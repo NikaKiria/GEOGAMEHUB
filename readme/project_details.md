@@ -17,6 +17,7 @@ _ Mongoose
 _ JWT
 _ Joi
 _ Body Parser
+_ Escape html
 _ Dotenv
 _ Nodemon
 _ Eslint

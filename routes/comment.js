@@ -3,6 +3,7 @@ const router = express.Router();
 const Post = require('../models/Post.js');
 const joi = require('joi');
 const auth = require('../middlewares/auth.js');
+const escape = require('escape-html');
 
 // Schema to validate new post info
 const commentSchema = joi.string().max(700).required();
@@ -20,10 +21,12 @@ router.put('/comment/:id', auth, async (req,res) => {
         console.log(validatedComment.error);
         return res.status(400).json("Comment cant be added!");
     }
+    // Escape html
+    const cleanCommentContent = escape(req.body.content);
     // Comment to post
     postToComment.comments.push(
         {
-        content:req.body.content,
+        content: cleanCommentContent,
         author: req.user
         }
     );
