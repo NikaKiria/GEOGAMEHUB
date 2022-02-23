@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const joi = require('joi');
 const router = express.Router();
 const User = require('../models/User.js');
+const escape = require('escape-html');
 
 // Schema to validate new user info
 const newUserSchema = joi.object().keys({
@@ -23,14 +24,27 @@ const newUserSchema = joi.object().keys({
     repeat_password: joi.ref('password'),
 });
 
+// Escape HTMl
+const escapeHTML = (postObject) => {
+    postObject.username = escape(postObject.username);
+    postObject.email = escape(postObject.email);
+    postObject.age = escape(postObject.age);
+    postObject.password = escape(postObject.password);
+    postObject.repeat_password = escape(postObject.repeat_password);
+    return postObject;
+};
+
 // Post request to register user
 router.post('/register', async (req,res) => {
     try{
-        // Validate User info
-        const newUserInfo = await req.body;
+        // Get user object
+        const newUserRawInfo = await req.body;
+        // Escape HTML
+        const newUserInfo = escapeHTML(newUserRawInfo);
+        // Validate provided info
         const validatedInfo = newUserSchema.validate(newUserInfo);
         if(validatedInfo.error){
-            return res.status(400).json({"Validator error":validatedInfo.error});
+            return res.status(400).json({"Validator error":validatedInfo.error.message});
         }
         // Check if user already exist
         const alreadyRegistered = await User.findOne({username: newUserInfo.username});
