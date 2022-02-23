@@ -1,7 +1,9 @@
-* Short description
+# GEOGAMEHUB README
+
+### Short description
  * GeoGameHub is a Web platform for people who love gaming.
 
-* What users can do
+### What users can do
  * Users can register
  * Users can log in
  * Users can create, update and delete their posts.
@@ -9,7 +11,7 @@
  * Users can Search Posts
  * Users can like and comment on other users posts.
 
-* Used technologies
+### Used technologies
  * Node.js / Express
  * Mongodb Atlas
  * Bcrypt
@@ -22,5 +24,5 @@
  * Nodemon
  * Eslint
 
-* Author
+### Author
  * Nika Kiria
