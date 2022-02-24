@@ -19,11 +19,11 @@ const validateComment = (cleanCommentContent) => {
 };
 
 // Push new comments
-const  pushComment = (postToComment) => {
+const  pushComment = (postToComment, cleanCommentContent, req) => {
     postToComment.comments.push(
         {
-        content: cleanCommentContent,
-        author: req.user
+            content: cleanCommentContent,
+            author: req.user
         }
     );
     return postToComment;
@@ -33,9 +33,11 @@ router.put('/comment/:id', auth, async (req,res) => {
     // Get post
     const rawPostID = req.params.id;
     const postID = escape(rawPostID);
-    //FIXME: post ID must be checked before finding it on db
-    const postToComment = await Post.findById(postID,(err) => console.log(err)).clone();
-    console.log(postToComment);
+    const postToComment = await Post.findById(
+        postID, 
+        err => console.log(err)
+    ).clone();
+    // Check if post exists
     if(!postToComment){
         return res.status(404).json("Post not found!");
     }
@@ -44,7 +46,7 @@ router.put('/comment/:id', auth, async (req,res) => {
     // Validate comment
     validateComment(cleanCommentContent);
     // Comment to post
-    pushComment(postToComment);
+    pushComment(postToComment, cleanCommentContent, req);
     postToComment.save();
     return res.status(200).json("Post Successfully Commented!");
 });
