@@ -33,6 +33,13 @@ const escapeHTML = (postObject) => {
     return postObject;
 };
 
+// Assign username and date
+const assignUserAndDate = (cleanPostData, authorUser) => {
+    cleanPostData.author = authorUser.username;
+    currentDate = new Date();
+    cleanPostData.date = currentDate.toDateString();
+};
+
 // Create new post
 router.post('/createpost', auth, async (req,res) => {
     // Validate post data provided by user
@@ -44,9 +51,9 @@ router.post('/createpost', auth, async (req,res) => {
     if(!authorUser){
         return res.status(404).json("User not found!");
     }
-    cleanPostData.author = authorUser.username;
-    currentDate = new Date();
-    cleanPostData.date = currentDate.toDateString();
+    // Assign author to username and date to current date
+    assignUserAndDate(cleanPostData, authorUser);
+    // Validate cleanPostData (post data that will be saved to db)
     const validatedData = newPostSchema.validate(cleanPostData);
     if(validatedData.error){
         return res.status(400).json({"validation":validatedData.error});
