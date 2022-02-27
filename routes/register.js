@@ -34,6 +34,13 @@ const escapeHTML = (postObject) => {
     return postObject;
 };
 
+// Hash password
+const hashPassword = async (newUserInfo) => {
+    const salt = await bcrypt.genSalt(10);
+    newUserInfo.password = await bcrypt.hash(newUserInfo.password, salt);
+    newUserInfo.repeat_password =  await bcrypt.hash(newUserInfo.repeat_password, salt);
+};
+
 // Post request to register user
 router.post('/register', async (req,res) => {
     try{
@@ -52,9 +59,7 @@ router.post('/register', async (req,res) => {
             return res.status(409).json("User Already Registered");
         }
         // Hash password
-        const salt = await bcrypt.genSalt(10);
-        newUserInfo.password = await bcrypt.hash(newUserInfo.password, salt);
-        newUserInfo.repeat_password =  await bcrypt.hash(newUserInfo.repeat_password, salt);
+        hashPassword(newUserInfo);
         // Create new user
         const newUser = await new User(newUserInfo);
         newUser.save((err) => {

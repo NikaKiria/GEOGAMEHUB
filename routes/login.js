@@ -20,6 +20,20 @@ const generateAccessToken = (email, secretToken) => {
     return jwt.sign({email}, secretToken , {expiresIn: "1d"});
 };
 
+// Return access token and user info
+const sendAccesstokenAndUserInfo = (userObject, secretToken, userExist, res) => {
+    const accessToken = generateAccessToken(userObject.email, process.env.JWT_TOKEN_SECRET);
+    if(!accessToken){
+        return res.status(500).json("Server Error!");
+    }
+    return res.status(200).json({accessToken, user:{
+        id: userExist._id,
+        username: userExist.username,
+        age: userExist.age,
+        email: userExist.email
+    }});
+};
+
 router.post('/login', async (req,res) => {
     // Validate user object
     const userObject = req.body;
@@ -36,13 +50,12 @@ router.post('/login', async (req,res) => {
     const isMatchPassword = await bcrypt.compare(userObject.password, userExist.password);
     if(isMatchPassword){
         // Return access token
-        const accessToken = generateAccessToken(userObject.email, process.env.JWT_TOKEN_SECRET);
-        return res.status(200).json({accessToken, user:{
-            id: userExist._id,
-            username: userExist.username,
-            age: userExist.age,
-            email: userExist.email
-        }});
+        sendAccesstokenAndUserInfo(
+            userObject,
+            process.env.JWT_TOKEN_SECRET,
+            userExist, 
+            res
+        );
     }else{
         return res.status(401).json("Wrong Credentials!");
     }

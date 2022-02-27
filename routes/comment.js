@@ -30,14 +30,15 @@ const  pushComment = (postToComment, cleanCommentContent, req) => {
 };
 
 router.put('/comment/:id', auth, async (req,res) => {
-    // Get post
     const rawPostID = req.params.id;
+    // Escape HTML
     const postID = escape(rawPostID);
+    // Get Post
     const postToComment = await Post.findById(
-        postID, 
+        postID,
         err => console.log(err)
     ).clone();
-    // Check if post exists
+    // Return error if post doesnt exist
     if(!postToComment){
         return res.status(404).json("Post not found!");
     }

@@ -42,7 +42,6 @@ const assignUserAndDate = (cleanPostData, authorUser) => {
 
 // Create new post
 router.post('/createpost', auth, async (req,res) => {
-    // Validate post data provided by user
     const postRawData = await req.body;
     // Escape HTML tags
     const cleanPostData = escapeHTML(postRawData);
