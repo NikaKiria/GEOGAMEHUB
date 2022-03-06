@@ -24,7 +24,7 @@ const  pushComment = (postToComment, cleanCommentContent, req) => {
         {
             content: cleanCommentContent,
             author: req.user
-        }
+        } 
     );
     return postToComment;
 };

@@ -13,7 +13,8 @@ const connectToDB = (MONGO_URI) => {
             }else{
                 console.log("connected to database");
             }
-        });
+        }
+    );
 };
 
 module.exports = {
