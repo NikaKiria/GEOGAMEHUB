@@ -13,6 +13,10 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    authoremail: {
+        type: String,
+        required: true
+    },
     date: {
         type: Date,
         required: true,
