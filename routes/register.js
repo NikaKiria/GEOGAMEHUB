@@ -59,7 +59,7 @@ router.post('/register', async (req,res) => {
             return res.status(409).json("User Already Registered");
         }
         // Hash password
-        hashPassword(newUserInfo);
+        await hashPassword(newUserInfo);
         // Create new user
         const newUser = await new User(newUserInfo);
         newUser.save((err) => {
