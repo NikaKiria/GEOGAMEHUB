@@ -6,10 +6,10 @@
     * Register Route // Done
     * Login Route // Done
     * GameFeed Route // Done
-    * Like/unlike // Done
-    * Comment // Done
-    * Delete comment // TODO:
-    * Delete Post // TODO:
+    * Like/unlike Route // Done
+    * Comment Route // Done
+    * CreatePost Route // Done
+    * DeletePost Route // TODO:
 * Security implementation // TODO:
 * Deploy // TODO:
 
