@@ -20,6 +20,9 @@ const newPostSchema = joi.object().keys({
         .min(3)
         .max(30)
         .required(),
+    authoremail: joi.string()
+        .required()
+        .email(),
     date: joi.date(),
     likes: joi.number()
         .integer(),
@@ -36,6 +39,7 @@ const escapeHTML = (postObject) => {
 // Assign username and date
 const assignUserAndDate = (cleanPostData, authorUser) => {
     cleanPostData.author = authorUser.username;
+    cleanPostData.authoremail = authorUser.email;
     currentDate = new Date();
     cleanPostData.date = currentDate.toDateString();
 };
