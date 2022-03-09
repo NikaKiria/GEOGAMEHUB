@@ -8,8 +8,9 @@
     * GameFeed Route // Done
     * Like/unlike Route // Done
     * Comment Route // Done
+    * DeleteComment Route // TODO:
     * CreatePost Route // Done
-    * DeletePost Route // TODO:
+    * DeletePost Route // Done
 * Security implementation // TODO:
 * Deploy // TODO:
 
