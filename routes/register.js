@@ -69,7 +69,7 @@ router.post('/register', async (req,res) => {
                 return res.status(201).json("User Registered!");
             }
         });
-    } catch(err) {
+    }catch(err) {
         console.log(err);
     }
 });
