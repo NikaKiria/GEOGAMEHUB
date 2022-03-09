@@ -5,6 +5,7 @@ const Post = require('../models/Post.js');
 const joi = require('joi');
 const auth = require('../middlewares/auth.js');
 const escape = require('escape-html');
+const uuid = require('uuid');
 
 // Schema to validate new post info
 const commentSchema = joi.string().max(700).required();
@@ -13,15 +14,15 @@ const commentSchema = joi.string().max(700).required();
 const validateComment = (cleanCommentContent) => {
     const validatedComment = commentSchema.validate(cleanCommentContent);
     if(validatedComment.error){
-        console.log(validatedComment.error);
         return res.status(400).json("Comment cant be added!");
     }
 };
 
-// Push new comments
+// Push new comments with specific id
 const  pushComment = (postToComment, cleanCommentContent, req) => {
     postToComment.comments.push(
         {
+            id: uuid.v1(),
             content: cleanCommentContent,
             author: req.user
         }
