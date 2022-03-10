@@ -23,22 +23,27 @@ const likePost = async (postToLike, postID, req, res) => {
 
 // Route to like and unlike posts
 router.put('/likePost/:id', auth, async (req,res) => {
-    // Get post
-    const postID = req.params.id;
-    const postToLike = await Post.findById(
-        postID, 
-        err => err && console.log(err)
-    ).clone();
-    // Check if post exist
-    if(!postToLike) {
-        return res.status(404).json("Post not found!");
-    }
-    if(postToLike.likes.includes(req.user)) {
-        // Unlike Post if user already liked it
-        unlikePost(postToLike, req, res);
-    }else {
-        // Like Post
-        likePost(postToLike, postID, req, res);
+    try{
+        const postID = req.params.id;
+        // Get post
+        const postToLike = await Post.findById(
+            postID, 
+            err => err && console.log(err)
+        ).clone();
+        // Check if post exist
+        if(!postToLike) {
+            return res.status(404).json("Post not found!");
+        }
+        if(postToLike.likes.includes(req.user)) {
+            // Unlike Post if user already liked it
+            unlikePost(postToLike, req, res);
+        }else {
+            // Like Post
+            likePost(postToLike, postID, req, res);
+        }
+    }catch(err) {
+        console.log(err);
+        res.status(500).json("Server Error!");
     }
 });
 

@@ -31,26 +31,31 @@ const  pushComment = (postToComment, cleanCommentContent, req) => {
 };
 
 router.put('/comment/:id', auth, async (req,res) => {
-    const rawPostID = req.params.id;
-    // Escape HTML
-    const postID = escape(rawPostID);
-    // Get Post
-    const postToComment = await Post.findById(
-        postID,
-        err => console.log(err)
-    ).clone();
-    // Return error if post doesnt exist
-    if(!postToComment){
-        return res.status(404).json("Post not found!");
+    try{
+        const rawPostID = req.params.id;
+        // Escape HTML
+        const postID = escape(rawPostID);
+        // Get Post
+        const postToComment = await Post.findById(
+            postID,
+            err => console.log(err)
+        ).clone();
+        // Return error if post doesnt exist
+        if(!postToComment){
+            return res.status(404).json("Post not found!");
+        }
+        // Escape html
+        const cleanCommentContent = escape(req.body.content);
+        // Validate comment
+        validateComment(cleanCommentContent);
+        // Comment to post
+        pushComment(postToComment, cleanCommentContent, req);
+        postToComment.save();
+        return res.status(200).json("Post Successfully Commented!");
+    }catch(err) {
+        console.log(err);
+        res.status(500).json("Server Error!");
     }
-    // Escape html
-    const cleanCommentContent = escape(req.body.content);
-    // Validate comment
-    validateComment(cleanCommentContent);
-    // Comment to post
-    pushComment(postToComment, cleanCommentContent, req);
-    postToComment.save();
-    return res.status(200).json("Post Successfully Commented!");
 });
 
 module.exports = router;

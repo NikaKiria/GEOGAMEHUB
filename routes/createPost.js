@@ -46,25 +46,30 @@ const assignUserAndDate = (cleanPostData, authorUser) => {
 
 // Create new post
 router.post('/createpost', auth, async (req,res) => {
-    const postRawData = await req.body;
-    // Escape HTML tags
-    const cleanPostData = escapeHTML(postRawData);
-    // Find user by email ( given by auth middleware )
-    const authorUser = await User.findOne({email:req.user});
-    if(!authorUser){
-        return res.status(404).json("User not found!");
+    try{
+        const postRawData = await req.body;
+        // Escape HTML tags
+        const cleanPostData = escapeHTML(postRawData);
+        // Find user by email ( given by auth middleware )
+        const authorUser = await User.findOne({email:req.user});
+        if(!authorUser){
+            return res.status(404).json("User not found!");
+        }
+        // Assign author to username and date to current date
+        assignUserAndDate(cleanPostData, authorUser);
+        // Validate cleanPostData (post data that will be saved to db)
+        const validatedData = newPostSchema.validate(cleanPostData);
+        if(validatedData.error){
+            return res.status(400).json({"validation":validatedData.error});
+        }
+        // Create new post
+        const newPost = await new Post(cleanPostData);
+        newPost.save();
+        res.status(201).json("Post successfully created!");
+    }catch(err) {
+        console.log(err);
+        res.status(500).json("Server Error!");
     }
-    // Assign author to username and date to current date
-    assignUserAndDate(cleanPostData, authorUser);
-    // Validate cleanPostData (post data that will be saved to db)
-    const validatedData = newPostSchema.validate(cleanPostData);
-    if(validatedData.error){
-        return res.status(400).json({"validation":validatedData.error});
-    }
-    // Create new post
-    const newPost = await new Post(cleanPostData);
-    newPost.save();
-    res.status(201).json("Post successfully created!");
 });
 
 module.exports = router;

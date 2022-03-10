@@ -35,29 +35,34 @@ const sendAccesstokenAndUserInfo = (userObject, secretToken, userExist, res) => 
 };
 
 router.post('/login', async (req,res) => {
-    // Validate user object
-    const userObject = req.body;
-    const validationResult = newUserSchema.validate(userObject);
-    if(validationResult.error){
-        return res.status(401).json("Wrong Credentials!");
-    }
-    // Check if user exists
-    const userExist = await User.findOne({email: userObject.email});
-    if(!userExist){
-        return res.status(401).json("Wrong Credentials!");
-    }
-    // Check if password is correct
-    const isMatchPassword = await bcrypt.compare(userObject.password, userExist.password);
-    if(isMatchPassword){
-        // Return access token
-        sendAccesstokenAndUserInfo(
-            userObject,
-            process.env.JWT_TOKEN_SECRET,
-            userExist, 
-            res
-        );
-    }else{
-        return res.status(401).json("Wrong Credentials!");
+    try{
+        // Validate user object
+        const userObject = req.body;
+        const validationResult = newUserSchema.validate(userObject);
+        if(validationResult.error){
+            return res.status(401).json("Wrong Credentials!");
+        }
+        // Check if user exists
+        const userExist = await User.findOne({email: userObject.email});
+        if(!userExist){
+            return res.status(401).json("Wrong Credentials!");
+        }
+        // Check if password is correct
+        const isMatchPassword = await bcrypt.compare(userObject.password, userExist.password);
+        if(isMatchPassword){
+            // Return access token
+            sendAccesstokenAndUserInfo(
+                userObject,
+                process.env.JWT_TOKEN_SECRET,
+                userExist, 
+                res
+            );
+        }else{
+            return res.status(401).json("Wrong Credentials!");
+        }
+    }catch(err) {
+        console.log(err);
+        res.status(500).json("Server Error!");
     }
 });
 
