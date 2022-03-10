@@ -14,7 +14,7 @@ const deletePost = async (req, res, Post) => {
 };
 
 // Check provided objectID
-const checkObjectID = (res, postToDeleteID, objectIDRegex) => {
+const checkObjectID = (res, postToDeleteID) => {
     const isObjectIDGood = mongoose.Types.ObjectId.isValid(postToDeleteID);
     if(!isObjectIDGood){
         return res.status(400).json("Bad Request!");
@@ -24,7 +24,7 @@ const checkObjectID = (res, postToDeleteID, objectIDRegex) => {
 router.delete('/deletePost/:id', auth, async (req,res) => {
     const postToDeleteID = req.params.id;
     // Check if id format is good
-    const notValidID = await checkObjectID(res, postToDeleteID, objectIDRegex);
+    const notValidID = await checkObjectID(res, postToDeleteID);
     if(notValidID){
         return notValidID;
     }

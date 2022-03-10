@@ -1,11 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const router = express.Router();
 const Post = require('../models/Post.js');
 const joi = require('joi');
 const auth = require('../middlewares/auth.js');
 const escape = require('escape-html');
 const uuid = require('uuid');
+const router = express.Router();
 
 // Schema to validate new post info
 const commentSchema = joi.string().max(700).required();

@@ -20,6 +20,7 @@
  * JWT
  * Joi
  * Body Parser
+ * uuid
  * Escape html
  * Dotenv
  * Nodemon
