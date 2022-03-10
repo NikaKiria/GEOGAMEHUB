@@ -9,7 +9,7 @@
 
 
 
-### For more technical details you can visit [TECHNICAL_DESCRIPTION.md](readme/TECHNICAL_DESCRIPTION) file inside readme folder.
+### For more technical details you can visit [TECHNICAL_DESCRIPTION.md](../blob/main/readme/TECHNICAL_DESCRIPTION) file inside readme folder.
 
 
 
