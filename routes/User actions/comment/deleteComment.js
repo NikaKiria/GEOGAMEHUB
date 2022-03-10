@@ -1,6 +1,6 @@
 const express = require('express');
-const Post = require('../models/Post.js');
-const auth = require('../middlewares/auth.js');
+const Post = require('../../../models/Post.js');
+const auth = require('../../../middlewares/auth.js');
 const mongoose = require('mongoose');
 
 const router = express.Router();
@@ -18,7 +18,6 @@ const checkIfAuthor = async (req, commentsArray, commentID) => {
     let ErrorsArray = [];
     commentsArray.map((commentObj) => {
         if(commentObj.id === commentID && commentObj.author !== req.user){
-            console.log(commentObj);
             ErrorsArray.push(commentObj.id);
         }
     });
@@ -42,17 +41,23 @@ router.put('/deleteComment/:postId/:commentId', auth, async (req,res) => {
         // Check if user requesting to delete comment is author
         const commentsArray = parentPost.comments;
         const checkAuthor = await checkIfAuthor(req, commentsArray, commentID);
-        console.log(checkAuthor);
         if(checkAuthor.length > 0){
             return res.status(400).json("Bad request!");
         }
         // Create new comments array which do not include comment with provided ID
         const newcommentsArray = [];
+        const rightId = [];
         commentsArray.forEach(commentObject => {
             if(commentObject.id != commentID){
                 newcommentsArray.push(commentObject);
+            }else{
+                rightId.push(commentObject.id);
             }
         });
+        // Check if comment with provided id exist
+        if(rightId.length === 0){
+            return res.status(404).json("Comment not found");
+        }
         // Update parent post object
         const updatedParentPost = await Post.findOneAndUpdate({_id: postID},{comments: newcommentsArray},{
             returnOriginal: false
@@ -60,6 +65,7 @@ router.put('/deleteComment/:postId/:commentId', auth, async (req,res) => {
         if(!updatedParentPost){
             return res.status(500).json("Server error!");
         }
+        console.log(updatedParentPost);
         const savedParentPost = await updatedParentPost.save();
         if(savedParentPost){
             return res.status(200).json("Comment successfully deleted!");

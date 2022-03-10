@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const joi = require('joi');
 const router = express.Router();
-const User = require('../models/User.js');
+const User = require('../../models/User.js');
 const escape = require('escape-html');
 
 // Schema to validate new user info

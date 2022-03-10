@@ -1,9 +1,9 @@
 const express = require('express');
-const Post = require('../models/Post.js');
-const auth = require('../middlewares/auth.js');
+const Post = require('../../../models/Post.js');
+const auth = require('../../../middlewares/auth.js');
 const joi = require('joi');
 const router = express.Router();
-const User = require('../models/User.js');
+const User = require('../../../models/User.js');
 const escape = require('escape-html');
  
 // Schema to validate new post info

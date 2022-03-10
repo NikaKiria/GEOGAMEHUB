@@ -1,7 +1,7 @@
 const express = require('express');
-const Post = require('../models/Post.js');
+const Post = require('../../../models/Post.js');
 const mongoose = require('mongoose');
-const auth = require('../middlewares/auth.js');
+const auth = require('../../../middlewares/auth.js');
 const router = express.Router();
 
 // Delete post

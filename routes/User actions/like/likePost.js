@@ -1,6 +1,6 @@
 const express = require('express');
-const Post = require('../models/Post.js');
-const auth = require('../middlewares/auth.js');
+const Post = require('../../../models/Post.js');
+const auth = require('../../../middlewares/auth.js');
 const router = express.Router();
 
 // Unlike Post ( Check if user has already liked post and unlike it )

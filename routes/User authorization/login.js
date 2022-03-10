@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const joi = require('joi');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-const User = require('../models/User.js');
+const User = require('../../models/User.js');
 
 // Schema to validate user info
 const newUserSchema = joi.object().keys({
