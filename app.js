@@ -33,7 +33,7 @@ app.use('/api/v1', deletePostRoute);
 app.use('/api/v1', deleteComment);
 
 // Listen to port
-const PORT = process.env.PORT;
-app.listen(PORT || 3000,() => {
-    console.log(`Listening to port: ${PORT}`);
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
+    console.log(`Listening to port: ${port}`);
 });
