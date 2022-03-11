@@ -4,6 +4,7 @@
   "description": "GeoGameHub backend",
   "main": "app.js",
   "engines": {
+    "start": "node app.js",
     "node": "16.13.2"
   },
   "scripts": {
