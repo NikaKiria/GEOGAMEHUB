@@ -4,14 +4,14 @@ const dotenv = require('dotenv');
 dotenv.config({path: `${__dirname}/env/.env`});
 const {connectToDB} = require('./database/database.js');
 // Import routes
-const registerRoute = require('./routes/User authorization/register.js');
-const loginRoute = require('./routes/User authorization/login.js');
+const registerRoute = require('./routes/User-authorization/register.js');
+const loginRoute = require('./routes/User-authorization/login.js');
 const newsFeedRoute = require('./routes/Feed/newsfeed.js');
-const createpostRoute = require('./routes/User actions/post/createPost.js');
-const likePost = require('./routes/User actions/like/likePost.js');
-const commentPost = require('./routes/User actions/comment/comment.js');
-const deleteComment = require('./routes/User actions/comment/deleteComment.js');
-const deletePostRoute = require('./routes/User actions/post/deletePost.js');
+const createpostRoute = require('./routes/User-actions/post/createPost.js');
+const likePost = require('./routes/User-actions/like/likePost.js');
+const commentPost = require('./routes/User-actions/comment/comment.js');
+const deleteComment = require('./routes/User-actions/comment/deleteComment.js');
+const deletePostRoute = require('./routes/User-actions/post/deletePost.js');
 // Create express app
 const app = express();
 
