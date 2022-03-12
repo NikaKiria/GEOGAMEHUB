@@ -14,5 +14,9 @@
 
 
 
+### Aplication is hosted on heroku: https://geogamehub.herokuapp.com/
+
+
+
 #### Glory to Ukraine! 🟦🟨
 #### Author: Nika Kiria.
